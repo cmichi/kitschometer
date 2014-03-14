@@ -1,6 +1,7 @@
-var config = require('./config_local.js');
 var express = require('express');
 var http = require('http');
+var fs = require('fs');
+var exec = require('child_process').exec;
 
 var app = express();
 app.configure(function () {
@@ -9,8 +10,8 @@ app.configure(function () {
 	app.locals.pretty = true;
 
 	app.use(express.bodyParser());
-	app.use(express.cookieParser());
-	app.use(express.session({ secret: config.session_secret }));
+	//app.use(express.cookieParser());
+	//app.use(express.session({ secret: config.session_secret }));
 	app.use(express.methodOverride());
 	app.use(app.router);
 	app.use(express.static(__dirname + '/static'));
@@ -22,22 +23,40 @@ server.listen(process.env.PORT || 8001, function() {
 });
 
 app.get('/', function(req, res) {
-	res.render('index', {});
+	getCounter("kunst", function(kunstCount) {
+		getCounter("kitsch", function(kitschCount ) {
+			res.render('index', {kunst: kunstCount, kitsch: kitschCount});
+		});
+	});
 });
 
-app.get('/vote/:whatfor', function(req, res) {
-	console.log("foo " + req.params.whatfor)
+function getCounter(whatfor, cb) {
+	fs.exists("./data/" + whatfor + ".counter", function (exists) {
+		if (exists) {
+			var cmd = "cat ./data/" + whatfor + ".counter | wc -l";
+			child = exec(cmd, function (error, stdout, stderr) {
+				//console.log('stdout: ' + stdout);
+				//console.log('stderr: ' + stderr);
 
+				if (error !== null) {
+					console.log('exec error: ' + error);
+				} 
+				
+				cb(parseInt(stdout));
+			});
+		} else {
+			cb(0);
+		}
+	});
+}
+
+app.get('/vote/:whatfor', function(req, res) {
 	if (req.params.whatfor === "kunst") {
-		countVote(function() {
-			console.log("rendering");
-			if (!res)
-				console.error("oh no")
+		countVote("kunst", function() {
 			res.render('voted', {whatfor: "kunst"});
 		});
 	} else if (req.params.whatfor === "kitsch") {
-		countVote(function() {
-			console.log("rendering");
+		countVote("kitsch", function() {
 			res.render('voted', {whatfor: "kitsch"});
 		});
 	} else {
@@ -46,9 +65,14 @@ app.get('/vote/:whatfor', function(req, res) {
 	}
 });
 
-function countVote(cb) {
-	console.log("counted");
-	cb();
+function countVote(whatfor, cb) {
+	try {
+		fs.appendFileSync("./data/" + whatfor + ".counter", "1\n");
+		cb();
+	} catch (e) {
+		throw new Error(e);
+		res.render("500", {msg: JSON.stringify(err)} );
+	};
 }
 
 app.use(function(req,res){
@@ -56,5 +80,11 @@ app.use(function(req,res){
 });
 
 (function initApp() {
-	// init
+	if (!fs.existsSync('./data/')) {
+		try { 
+			fs.mkdirSync('./data/'); 
+		} catch (e) {
+			throw new Error(e);
+		}
+	}
 })();
