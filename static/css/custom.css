@@ -44,3 +44,8 @@ body {
 	font-size: 80px;
 	padding-right:40px;
 }
+
+.jumbotron {
+	position: absolute;
+	width:100%
+}

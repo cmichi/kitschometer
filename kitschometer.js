@@ -30,13 +30,13 @@ app.get('/vote/:whatfor', function(req, res) {
 	if (req.params.whatfor === "kunst") {
 		countVote("kunst", function() {
 			getCounter(function(counterObj) {
-				res.render('voted', {whatfor: "kunst", counter: counterObj});
+				res.json({whatfor: "kunst", counter: counterObj});
 			});
 		});
 	} else if (req.params.whatfor === "kitsch") {
 		countVote("kitsch", function() {
 			getCounter(function(counterObj) {
-				res.render('voted', {whatfor: "kitsch", counter: counterObj});
+				res.json({whatfor: "kunst", counter: counterObj});
 			});
 		});
 	} else {

@@ -1,7 +1,7 @@
 extends layout
 
 block jumbotron
-	div.jumbotron.index-jumbotron
+	div.jumbotron.index-jumbotron#index
 		div.container.text-center
 
 			div.row(style="display:none")
@@ -15,8 +15,8 @@ block jumbotron
 
 			div.row(style="margin-top:120px;")
 				div.col-lg-4
-					div.text-center.pull-right
-							a.btn.btn-default.btn-lg(href="/vote/kunst").
+					div.text-center
+							div.btn.btn-default.btn-lg(onclick="kunst();").pull-right.
 								<img src="/img/icon_20254/icon_20254.png" style="height:100px;margin-right:10px;" />
 								Kunst
 
@@ -26,8 +26,97 @@ block jumbotron
 
 				div.col-lg-4
 					div.text-center
-							a.btn.btn-default.btn-lg(href="/vote/kitsch").pull-left.
+							div.btn.btn-default.btn-lg(onclick="kitsch();").pull-left.
 								<img src="/img/icon_25214/icon_25214.png" style="height:100px;margin-right:10px;" />
 								Kitsch
 
 
+
+	div.jumbotron.index-jumbotron#voted(style="display:none;")
+		div.container.text-center
+			div.row
+				div.col-lg-12(style="display:none")
+					strong(style="font-size:32").
+						Soso&hellip; 
+
+					- if (whatfor === "kitsch")
+						strong(style="font-size:32;color:#d22e81;").
+							Kitsch
+					- else 
+						strong(style="font-size:32;color:black;").
+							Kunst
+					- endif
+
+				div.col-lg-12
+					canvas(width="500",height="400",style="margin-top:-35px")#foo
+
+				div.col-lg-4
+					div(style="float:right").
+						<img src="/img/icon_20254/icon_20254.png" width="100" />
+						<br />
+						<strong>Kunst: #{counter.kunst}</strong> 
+
+
+				div.col-lg-4
+					div(style="float:left").
+						<div style="font-size:70px;color:white;margin-top:-10px;display:none;" id="incrementKunst">
+							<strong>+1</strong>
+						</div>
+
+				div.col-lg-4
+					div(style="float:left").
+						<img src="/img/icon_25214/icon_25214.png" width="100" />
+						<br />
+						<strong>Kitsch: #{counter.kitsch}</strong> 
+					div(style="float:left").
+						<div style="font-size:70px;color:white;margin-top:-10px;display:none;" id="incrementKitsch">
+							<strong>+1</strong>
+						</div>
+
+
+	script(type="text/javascript").
+		function kunst() {
+			$.get("/vote/kunst", function (data) {
+				var opts = {
+					lines: 12, // The number of lines to draw
+					angle: 0.15, // The length of each line
+					lineWidth: 0.44, // The line thickness
+					pointer: {
+						length: 0.9, // The radius of the inner circle
+						strokeWidth: 0.035, // The rotation offset
+						color: '#ffffff' // Fill color
+					},
+					limitMax: 'false',   // If true, the pointer will not go past the end of the gauge
+					colorStart: '#000000',   // Colors
+					colorStop: '#000000',    // just experiment with them
+					strokeColor: '#d22e81',
+					generateGradient: true
+				};
+
+				var target = document.getElementById('foo'); // your canvas element
+				var gauge = new Gauge(target).setOptions(opts); // create sexy gauge!
+				gauge.maxValue = data.counter.total; // set max gauge value
+				gauge.animationSpeed = 32; // set animation speed (32 is default value)
+
+				var val = data.counter.total - data.counter.kunst;
+				gauge.set(val); 
+
+				$("#index").fadeOut(1000, function() {
+					if (data.whatfor === "kitsch") 
+						$("#incrementKitsch").css({"display": "block"});
+					else
+						$("#incrementKunst").css({"display": "block"});
+
+					$("#voted").fadeIn(1000, function() {
+						if (data.whatfor === "kitsch") 
+							$("#incrementKitsch").fadeOut(3000);
+						else 
+							$("#incrementKunst").fadeOut(3000);
+
+						$("#voted").delay(3000).fadeOut(2000, function() {
+							$("#index").fadeIn(2000);
+						});
+					});
+				});
+			});
+		}
