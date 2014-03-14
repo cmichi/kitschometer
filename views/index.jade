@@ -16,7 +16,7 @@ block jumbotron
 			div.row(style="margin-top:120px;")
 				div.col-lg-4
 					div.text-center
-							div.btn.btn-default.btn-lg(onclick="kunst();").pull-right.
+							div.btn.btn-default.btn-lg(onclick="vote('kunst');").pull-right.
 								<img src="/img/icon_20254/icon_20254.png" style="height:100px;margin-right:10px;" />
 								Kunst
 
@@ -26,7 +26,7 @@ block jumbotron
 
 				div.col-lg-4
 					div.text-center
-							div.btn.btn-default.btn-lg(onclick="kitsch();").pull-left.
+							div.btn.btn-default.btn-lg(onclick="vote('kitsch');").pull-left.
 								<img src="/img/icon_25214/icon_25214.png" style="height:100px;margin-right:10px;" />
 								Kitsch
 
@@ -75,8 +75,8 @@ block jumbotron
 
 
 	script(type="text/javascript").
-		function kunst() {
-			$.get("/vote/kunst", function (data) {
+		function vote(whatfor) {
+			$.get("/vote/" + whatfor, function (data) {
 				var opts = {
 					lines: 12, // The number of lines to draw
 					angle: 0.15, // The length of each line
@@ -102,16 +102,23 @@ block jumbotron
 				gauge.set(val); 
 
 				$("#index").fadeOut(1000, function() {
-					if (data.whatfor === "kitsch") 
+					if (data.whatfor === "kitsch") {
 						$("#incrementKitsch").css({"display": "block"});
-					else
+						$("#incrementKitsch").fadeIn(1000);
+						//$("#incrementKitsch strong").css({"text-shadow": "0px 0px 85px #fff;"});
+					} else {
+						$("#incrementKunst").fadeIn(1000);
 						$("#incrementKunst").css({"display": "block"});
+					}
+
 
 					$("#voted").fadeIn(1000, function() {
-						if (data.whatfor === "kitsch") 
+						if (data.whatfor === "kitsch") {
 							$("#incrementKitsch").fadeOut(3000);
-						else 
+							//$("#incrementKitsch strong").animate({"text-shadow": "0px 0px 0px #fff;"}, 1000);
+						} else {
 							$("#incrementKunst").fadeOut(3000);
+						}
 
 						$("#voted").delay(3000).fadeOut(2000, function() {
 							$("#index").fadeIn(2000);
