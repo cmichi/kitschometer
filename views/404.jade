@@ -1,0 +1,24 @@
+extends layout
+
+block jumbotron
+	div.jumbotron
+		div.container
+			h1 Fehler 404
+
+			div.sub.
+				Oh noes! Diese Seite existiert nicht.
+
+block content
+	div.row
+		div.col-lg-6
+			h2 Something bad happened&hellip;
+
+			p.
+				Unsere flei&szlig;igen Arbeiterbienchen haben
+				gesucht und gesucht, doch wir k&ouml;nnen diese Seite beim
+				besten Willen einfach nicht finden!
+			
+		div.col-lg-6
+			h2 Das ist der Troublemaker:
+			
+			div.alert.alert-danger(style="font-size:22px;") https://findsgut.de#{missingurl}
