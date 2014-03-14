@@ -36,7 +36,11 @@ body {
 }
 
 .jumbotron h3 {
-	color:#eeeeec;
 	margin-top:25px;
-	font-family:Sans-Serif;
+	font-family: 'Amaranth',sans-serif;
+}
+
+.btn {
+	font-size: 80px;
+	padding-right:40px;
 }

@@ -17,7 +17,7 @@ block jumbotron
 					- endif
 
 				div.col-lg-12
-					canvas(width="500",height="400")#foo
+					canvas(width="500",height="400",style="margin-top:-35px")#foo
 
 				div.col-lg-4
 					div(style="float:right").
@@ -71,16 +71,18 @@ block jumbotron
 		$(function() {
 			if ("#{whatfor}" === "kitsch") {
 				$("#incrementKitsch").css({"display": "block"});
-				$("#incrementKitsch").fadeOut(2000);
+				$("#incrementKitsch").fadeOut(3000);
 			} else {
 				$("#incrementKunst").css({"display": "block"});
 				$("#incrementKunst").fadeOut(3000);
 			}
+
+			$("body").delay(3000).fadeOut(2000);
 		});
 
 
 
-	//block head.
-		<meta http-equiv="Refresh" content="5; URL=/" />
+	block head.
+		<meta http-equiv="Refresh" content="6; URL=/" />
 		
 

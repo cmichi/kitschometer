@@ -10,8 +10,6 @@ app.configure(function () {
 	app.locals.pretty = true;
 
 	app.use(express.bodyParser());
-	//app.use(express.cookieParser());
-	//app.use(express.session({ secret: config.session_secret }));
 	app.use(express.methodOverride());
 	app.use(app.router);
 	app.use(express.static(__dirname + '/static'));
@@ -24,7 +22,6 @@ server.listen(process.env.PORT || 8001, function() {
 
 app.get('/', function(req, res) {
 	getCounter(function(counterObj) {
-		console.log(JSON.stringify(counterObj));
 		res.render('index', {counter: counterObj});
 	});
 });
@@ -43,7 +40,6 @@ app.get('/vote/:whatfor', function(req, res) {
 			});
 		});
 	} else {
-		console.log("redirecting..");
 		res.redirect("/");
 	}
 });

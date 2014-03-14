@@ -4,26 +4,30 @@ block jumbotron
 	div.jumbotron.index-jumbotron
 		div.container.text-center
 
-			div.row
+			div.row(style="display:none")
 				div.col-lg-6.col-lg-offset-3
-					img.img-responsive(src="/img/headline.png",,alt="headline")
+					img.img-responsive(src="/img/headline.png",width="1000",alt="headline")
 
 			div.row
-				div.col-lg-8.col-lg-offset-2.text-center
-					h3.
-						Was meinst Du?
+				div.col-lg-10.col-lg-offset-1.text-center
+					h3(style="font-size:60px;font-weight:normal;").
+						Was trifft eher auf diese Ausstellung zu?
 
-			div.row(style="margin-top:15px;")
-				div.col-lg-4.col-lg-offset-2
-					div.text-center.pull-left
+			div.row(style="margin-top:120px;")
+				div.col-lg-4
+					div.text-center.pull-right
 							a.btn.btn-default.btn-lg(href="/vote/kunst").
-								<img src="/img/wabe.png" style="height:20px;margin-right:10px;" />
+								<img src="/img/icon_20254/icon_20254.png" style="height:100px;margin-right:10px;" />
 								Kunst
 
 				div.col-lg-4
-					div.text-center.pull-right
-							a.btn.btn-default.btn-lg(href="/vote/kitsch").
-								<img src="/img/wabe.png" style="height:20px;margin-right:10px;" />
+					div.text-center(style="padding-top:0px;font-size:60px;").
+						oder
+
+				div.col-lg-4
+					div.text-center
+							a.btn.btn-default.btn-lg(href="/vote/kitsch").pull-left.
+								<img src="/img/icon_25214/icon_25214.png" style="height:100px;margin-right:10px;" />
 								Kitsch
 
 
