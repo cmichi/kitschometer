@@ -1,8 +1,38 @@
+@font-face {
+	font-family: 'Amaranth';
+	font-style: normal;
+	font-weight: 400;
+	src: local('Amaranth'),
+	url(/fonts/RvdVaxHTnYbJDko8dLi4zvesZW2xOQ-xsNqO47m55DA.woff)
+	format('woff');
+}
+
+@font-face {
+	font-family: 'Amaranth';
+	font-style: normal;
+	font-weight: 700;
+	src: local('Amaranth Bold'), local('Amaranth-Bold'),
+	url(/fonts/hh4Od9pccylRpuf5LUPgEobN6UDyHWBl620a-IRfuBk.woff)
+	format('woff');
+}
+
+@font-face {
+	font-family: 'Just Another Hand';
+	font-style: normal;
+	font-weight: 400;
+	src: local('Just Another Hand'),
+	local('JustAnotherHand-Regular'),
+	url(/fonts/fKV8XYuRNNagXr38eqbRf8DbBFScDQWNirGEA9Q9Yto.woff)
+	format('woff');
+}
+
 body {
 	background: -webkit-linear-gradient(left, #9ed8ec , #36bde1); /* For Safari 5.1 to 6.0 */
 	background: -o-linear-gradient(right, #9ed8ec, #36bde1); /* For Opera 11.1 to 12.0 */
 	background: -moz-linear-gradient(right, #9ed8ec, #36bde1); /* For Firefox 3.6 to 15 */
 	background: linear-gradient(to right, #9ed8ec , #36bde1); /* Standard syntax */
+
+	font-family: 'Amaranth',sans-serif;
 }
 
 .jumbotron h3 {

@@ -23,14 +23,59 @@ server.listen(process.env.PORT || 8001, function() {
 });
 
 app.get('/', function(req, res) {
-	getCounter("kunst", function(kunstCount) {
-		getCounter("kitsch", function(kitschCount ) {
-			res.render('index', {kunst: kunstCount, kitsch: kitschCount});
-		});
+	getCounter(function(counterObj) {
+		console.log(JSON.stringify(counterObj));
+		res.render('index', {counter: counterObj});
 	});
 });
 
-function getCounter(whatfor, cb) {
+app.get('/vote/:whatfor', function(req, res) {
+	if (req.params.whatfor === "kunst") {
+		countVote("kunst", function() {
+			getCounter(function(counterObj) {
+				res.render('voted', {whatfor: "kunst", counter: counterObj});
+			});
+		});
+	} else if (req.params.whatfor === "kitsch") {
+		countVote("kitsch", function() {
+			getCounter(function(counterObj) {
+				res.render('voted', {whatfor: "kitsch", counter: counterObj});
+			});
+		});
+	} else {
+		console.log("redirecting..");
+		res.redirect("/");
+	}
+});
+
+app.use(function(req,res){
+	res.render('404');
+});
+
+(function initApp() {
+	if (!fs.existsSync('./data/')) {
+		try { 
+			fs.mkdirSync('./data/'); 
+		} catch (e) {
+			throw new Error(e);
+		}
+	}
+})();
+
+function getCounter(cb) {
+	getCounterFor("kunst", function(kunstCounter) {
+		getCounterFor("kitsch", function(kitschCounter) {
+			var obj = {
+				  kunst: kunstCounter
+				, kitsch: kitschCounter
+				, total: kunstCounter + kitschCounter
+			};
+			cb(obj);
+		});
+	});
+}
+
+function getCounterFor(whatfor, cb) {
 	fs.exists("./data/" + whatfor + ".counter", function (exists) {
 		if (exists) {
 			var cmd = "cat ./data/" + whatfor + ".counter | wc -l";
@@ -50,21 +95,6 @@ function getCounter(whatfor, cb) {
 	});
 }
 
-app.get('/vote/:whatfor', function(req, res) {
-	if (req.params.whatfor === "kunst") {
-		countVote("kunst", function() {
-			res.render('voted', {whatfor: "kunst"});
-		});
-	} else if (req.params.whatfor === "kitsch") {
-		countVote("kitsch", function() {
-			res.render('voted', {whatfor: "kitsch"});
-		});
-	} else {
-		console.log("redirecting..");
-		res.redirect("/");
-	}
-});
-
 function countVote(whatfor, cb) {
 	try {
 		fs.appendFileSync("./data/" + whatfor + ".counter", "1\n");
@@ -75,16 +105,3 @@ function countVote(whatfor, cb) {
 	};
 }
 
-app.use(function(req,res){
-	res.render('404');
-});
-
-(function initApp() {
-	if (!fs.existsSync('./data/')) {
-		try { 
-			fs.mkdirSync('./data/'); 
-		} catch (e) {
-			throw new Error(e);
-		}
-	}
-})();
