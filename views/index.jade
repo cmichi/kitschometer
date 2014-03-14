@@ -47,8 +47,8 @@ block jumbotron
 							Kunst
 					- endif
 
-				div.col-lg-12
-					canvas(width="500",height="400",style="margin-top:-35px")#foo
+				div.col-lg-12#gaugeContainer.
+					'<canvas width="500" height="400" style="margin-top:-35px" id="gauge" />'
 
 				div.col-lg-4
 					div(style="float:right").
@@ -76,7 +76,49 @@ block jumbotron
 
 	script(type="text/javascript").
 		function vote(whatfor) {
+			//$("#gauge").remove();
+			//document.getElementById("gaugeContainer").innerHTML = 
+				//'<canvas width="500" height="400" style="margin-top:-35px" id="gauge" />'; 
+
 			$.get("/vote/" + whatfor, function (data) {
+				gauge.maxValue = data.counter.total; // set max gauge value
+				gauge.animationSpeed = 32; // set animation speed (32 is default value)
+
+				var val = data.counter.total - data.counter.kunst;
+
+				$("#index").fadeOut(1000, function() {
+					if (data.whatfor === "kitsch") {
+						$("#incrementKitsch").css({"display": "block"});
+						$("#incrementKitsch").fadeIn(1000);
+					} else {
+						$("#incrementKunst").fadeIn(1000);
+						$("#incrementKunst").css({"display": "block"});
+					}
+
+
+					console.log("about to delay");
+					setTimeout("gauge.set(" + val + ")", 800);
+
+					$("#voted").fadeIn(1000, function() {
+						if (data.whatfor === "kitsch") {
+							$("#incrementKitsch").fadeOut(3000);
+						} else {
+							$("#incrementKunst").fadeOut(3000);
+						}
+
+						$("#voted").delay(3000).fadeOut(2000, function() {
+							$("#index").fadeIn(2000);
+
+							gauge.animationSpeed = 128;
+							gauge.set(0);
+						});
+					});
+				});
+			});
+		}
+
+		var gauge;
+		$(function() {
 				var opts = {
 					lines: 12, // The number of lines to draw
 					angle: 0.15, // The length of each line
@@ -93,37 +135,7 @@ block jumbotron
 					generateGradient: true
 				};
 
-				var target = document.getElementById('foo'); // your canvas element
-				var gauge = new Gauge(target).setOptions(opts); // create sexy gauge!
-				gauge.maxValue = data.counter.total; // set max gauge value
-				gauge.animationSpeed = 32; // set animation speed (32 is default value)
 
-				var val = data.counter.total - data.counter.kunst;
-				gauge.set(val); 
-
-				$("#index").fadeOut(1000, function() {
-					if (data.whatfor === "kitsch") {
-						$("#incrementKitsch").css({"display": "block"});
-						$("#incrementKitsch").fadeIn(1000);
-						//$("#incrementKitsch strong").css({"text-shadow": "0px 0px 85px #fff;"});
-					} else {
-						$("#incrementKunst").fadeIn(1000);
-						$("#incrementKunst").css({"display": "block"});
-					}
-
-
-					$("#voted").fadeIn(1000, function() {
-						if (data.whatfor === "kitsch") {
-							$("#incrementKitsch").fadeOut(3000);
-							//$("#incrementKitsch strong").animate({"text-shadow": "0px 0px 0px #fff;"}, 1000);
-						} else {
-							$("#incrementKunst").fadeOut(3000);
-						}
-
-						$("#voted").delay(3000).fadeOut(2000, function() {
-							$("#index").fadeIn(2000);
-						});
-					});
-				});
-			});
-		}
+				var target = document.getElementById('gauge'); // your canvas element
+				gauge = new Gauge(target).setOptions(opts); 
+		});
