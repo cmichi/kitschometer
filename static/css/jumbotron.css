@@ -1,0 +1,42 @@
+/* Move down content because we have a fixed navbar that is 50px tall */
+body {
+  padding-top: 50px;
+    padding-bottom: 20px;
+}
+
+.jumbotron h1 {
+	color: #E6B364;
+	font-family: ff-meta-web-pro-1,ff-meta-web-pro-2,"Century Schoolbook",Century,Garamond,serif;
+	font-style:italic;
+	font-size:2.1em;   
+	font-weight:400;
+	line-height:40px;
+}
+
+.index-jumbotron {
+	padding-bottom: 48px !important;
+	padding-top: 48px !important;
+}
+
+.jumbotron {
+	padding: 10px 10px;
+}
+
+.jumbotron .sub {
+	display: none;
+}
+
+.jumbotron .sub, .foo {
+	color: #DDD;
+	font-family: ff-meta-web-pro-1,ff-meta-web-pro-2,"Century Schoolbook",Century,Garamond,serif;
+	font-style:italic;
+	line-height:40px;
+	/*
+	font-weight:400;
+	font-size:1.3em;   
+	*/
+}
+
+.active a {
+	text-decoration: underline;
+}
