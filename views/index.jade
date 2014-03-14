@@ -54,7 +54,7 @@ block jumbotron
 					div(style="float:right").
 						<img src="/img/icon_20254/icon_20254.png" width="100" />
 						<br />
-						<strong>Kunst: #{counter.kunst}</strong> 
+						<strong>Kunst: <span id="counterKunst"></span></strong> 
 
 
 				div.col-lg-4
@@ -67,7 +67,7 @@ block jumbotron
 					div(style="float:left").
 						<img src="/img/icon_25214/icon_25214.png" width="100" />
 						<br />
-						<strong>Kitsch: #{counter.kitsch}</strong> 
+						<strong>Kitsch: <span id="counterKitsch"></span></strong> 
 					div(style="float:left").
 						<div style="font-size:70px;color:white;margin-top:-10px;display:none;" id="incrementKitsch">
 							<strong>+1</strong>
@@ -81,8 +81,12 @@ block jumbotron
 				//'<canvas width="500" height="400" style="margin-top:-35px" id="gauge" />'; 
 
 			$.get("/vote/" + whatfor, function (data) {
+				createGauge();
 				gauge.maxValue = data.counter.total; // set max gauge value
 				gauge.animationSpeed = 32; // set animation speed (32 is default value)
+
+				$("#counterKunst").text(data.counter.kunst);
+				$("#counterKitsch").text(data.counter.kitsch);
 
 				var val = data.counter.total - data.counter.kunst;
 
@@ -109,8 +113,8 @@ block jumbotron
 						$("#voted").delay(3000).fadeOut(2000, function() {
 							$("#index").fadeIn(2000);
 
-							gauge.animationSpeed = 128;
-							gauge.set(0);
+							//gauge.animationSpeed = 128;
+							//gauge.set(0);
 						});
 					});
 				});
@@ -119,6 +123,10 @@ block jumbotron
 
 		var gauge;
 		$(function() {
+			createGauge();
+		});
+
+		function createGauge() {
 				var opts = {
 					lines: 12, // The number of lines to draw
 					angle: 0.15, // The length of each line
@@ -138,4 +146,4 @@ block jumbotron
 
 				var target = document.getElementById('gauge'); // your canvas element
 				gauge = new Gauge(target).setOptions(opts); 
-		});
+		}
