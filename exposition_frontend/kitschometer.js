@@ -114,8 +114,8 @@ function readButtons() {
 			console.log(JSON.stringify(error));
 			console.log(stderr)
 		}
-		console.log('stdout: ' + stdout);
-		console.log('stderr: ' + stderr);
+		//console.log('stdout: ' + stdout);
+		//console.log('stderr: ' + stderr);
 	});
 	child.stdout.on('data', function(data) { 
 		data = data.replace(/\s*/g, "");
@@ -127,7 +127,7 @@ function readButtons() {
 			io.sockets.emit('vote', {whatfor: 'kunst'});
 		else if (data == "64")
 			io.sockets.emit('vote', {whatfor: 'kitsch'});
-		console.log("_" + data + "_"); 
+		//console.log("_" + data + "_"); 
 //process.stdout.write("--");
 		//io.sockets.emit('news', data);
 	});
