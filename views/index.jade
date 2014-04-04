@@ -1,80 +1,64 @@
 extends layout
 
 block jumbotron
-	div.jumbotron.index-jumbotron#index
-		div.container.text-center
+	div.pt-perspective#pt-main
+		div.jumbotron.index-jumbotron.pt-page.pt-page-1
+			div.container.text-center
 
-			div.row(style="display:none")
-				div.col-lg-6.col-lg-offset-3
-					img.img-responsive(src="/img/headline.png",width="1000",alt="headline")
+				div.row(style="display:none")
+					div.col-lg-6.col-lg-offset-3
+						img.img-responsive(src="/img/headline.png",width="1000",alt="headline")
 
-			div.row
-				div.col-lg-10.col-lg-offset-1.text-center
-					h3(style="font-size:60px;font-weight:normal;").
-						Was trifft eher auf diese Ausstellung zu?
-					//h3(style="font-size:60px;font-weight:normal;").
-						Wie nimmst du diese Ausstellung eher wahr?
+				div.row
+					div.col-lg-10.col-lg-offset-1.text-center
+						h3(style="font-size:160px;font-weight:normal;").
+							Stimm ab!
+						h3(style="font-size:80px;font-weight:normal;").
+							Was ist dein Ausstellungs-Eindruck?
 
-			div.row(style="margin-top:120px;")
-				div.col-lg-4
-					div.text-center
-							div.btn.btn-default.btn-lg(onclick="vote('kunst');").pull-right.
-								<img src="/img/icon_20254/icon_20254.png" style="height:100px;margin-right:10px;" />
-								Kunst
 
-				div.col-lg-4
-					div.text-center(style="padding-top:0px;font-size:60px;").
-						oder
+		//div.jumbotron.index-jumbotron#voted(style="display:none;")
+		div.jumbotron.index-jumbotron.pt-page.pt-page-2
+			div.container.text-center
+				div.row
+					div.col-lg-12(style="display:none")
+						strong(style="font-size:32").
+							Soso&hellip; 
 
-				div.col-lg-4
-					div.text-center
-							div.btn.btn-default.btn-lg(onclick="vote('kitsch');").pull-left.
-								<img src="/img/icon_25214/icon_25214.png" style="height:100px;margin-right:10px;" />
+						- if (whatfor === "kitsch")
+							strong(style="font-size:32;color:#d22e81;").
 								Kitsch
+						- else 
+							strong(style="font-size:32;color:black;").
+								Kunst
+						- endif
+
+					div.col-lg-12#gaugeContainer.
+						'<canvas width="500" height="400" style="margin-top:-35px" id="gauge" />'
+
+				div.row(style="margin-top:-70px")
+					div.col-lg-4
+						div(style="float:right").
+							<img src="/img/icon_20254/icon_20254.png" width="100" />
+							<br />
+							<strong>Kunst: <span id="counterKunst"></span></strong> 
 
 
+					div.col-lg-4
+						div(style="float:left").
+							<div style="font-size:70px;color:white;margin-top:-10px;display:none;" id="incrementKunst">
+								<strong>+1</strong>
+							</div>
 
-	div.jumbotron.index-jumbotron#voted(style="display:none;")
-		div.container.text-center
-			div.row
-				div.col-lg-12(style="display:none")
-					strong(style="font-size:32").
-						Soso&hellip; 
-
-					- if (whatfor === "kitsch")
-						strong(style="font-size:32;color:#d22e81;").
-							Kitsch
-					- else 
-						strong(style="font-size:32;color:black;").
-							Kunst
-					- endif
-
-				div.col-lg-12#gaugeContainer.
-					'<canvas width="500" height="400" style="margin-top:-35px" id="gauge" />'
-
-			div.row(style="margin-top:-70px")
-				div.col-lg-4
-					div(style="float:right").
-						<img src="/img/icon_20254/icon_20254.png" width="100" />
-						<br />
-						<strong>Kunst: <span id="counterKunst"></span></strong> 
-
-
-				div.col-lg-4
-					div(style="float:left").
-						<div style="font-size:70px;color:white;margin-top:-10px;display:none;" id="incrementKunst">
-							<strong>+1</strong>
-						</div>
-
-				div.col-lg-4
-					div(style="float:left").
-						<img src="/img/icon_25214/icon_25214.png" width="100" />
-						<br />
-						<strong>Kitsch: <span id="counterKitsch"></span></strong> 
-					div(style="float:left").
-						<div style="font-size:70px;color:white;margin-top:-10px;display:none;" id="incrementKitsch">
-							<strong>+1</strong>
-						</div>
+					div.col-lg-4
+						div(style="float:left").
+							<img src="/img/icon_25214/icon_25214.png" width="100" />
+							<br />
+							<strong>Kitsch: <span id="counterKitsch"></span></strong> 
+						div(style="float:left").
+							<div style="font-size:70px;color:white;margin-top:-10px;display:none;" id="incrementKitsch">
+								<strong>+1</strong>
+							</div>
 
 
 	script(type="text/javascript").
@@ -93,7 +77,8 @@ block jumbotron
 
 				var val = data.counter.total - data.counter.kunst;
 
-				$("#index").fadeOut(1000, function() {
+				//$("#index").fadeOut(1000, function() {
+				pageTransition.nextPage(32, function() {
 					if (data.whatfor === "kitsch") {
 						$("#incrementKitsch").css({"display": "block"});
 						$("#incrementKitsch").fadeIn(1000);
@@ -106,27 +91,51 @@ block jumbotron
 					console.log("about to delay");
 					setTimeout("gauge.set(" + val + ")", 800);
 
-					$("#voted").fadeIn(1000, function() {
-						if (data.whatfor === "kitsch") {
-							$("#incrementKitsch").fadeOut(3000);
-						} else {
-							$("#incrementKunst").fadeOut(3000);
-						}
-
-						$("#voted").delay(3000).fadeOut(2000, function() {
-							$("#index").fadeIn(2000);
-
-							//gauge.animationSpeed = 128;
-							//gauge.set(0);
-						});
-					});
+					//$("#voted").fadeIn(1000, function() {
+					//pageTransition.nextPage(32, function() {
+					setTimeout("fadeIncOut('" + data.whatfor + "')", 1000);
+					//});
 				});
 			});
 		}
 
+		fadeIncOut = function(whatfor) {
+			if (whatfor === "kitsch") {
+				$("#incrementKitsch").fadeOut(3000);
+			} else {
+				$("#incrementKunst").fadeOut(3000);
+			}
+
+			setTimeout("pageTransition.nextPage(32)", 3000);
+
+			//$("#voted").delay(3000).pageTransition.nextPage(2);
+			/*
+			$("#voted").delay(3000).fadeOut(2000, function() {
+				$("#index").fadeIn(2000);
+
+				//gauge.animationSpeed = 128;
+				//gauge.set(0);
+			});
+			*/
+		}
+
 		var gauge;
+		var pageTransition;
+
 		$(function() {
 			createGauge();
+			pageTransition = PageTransitions();
+			pageTransition.init();
+
+			var socket = io.connect('http://localhost:8002');
+			socket.on('vote', function (data) {
+				console.log(data);
+				if (data.whatfor == "kunst")
+					vote('kunst');
+				else if (data.whatfor == "kitsch")
+					vote('kitsch');
+				//socket.emit('my other event', { my: 'data' });
+			});
 		});
 
 		function createGauge() {
@@ -143,6 +152,7 @@ block jumbotron
 					colorStart: '#000000',   // Colors
 					colorStop: '#000000',    // just experiment with them
 					strokeColor: '#d22e81',
+					//strokeColor: '#d22e81',
 					generateGradient: true
 				};
 
@@ -150,3 +160,4 @@ block jumbotron
 				var target = document.getElementById('gauge'); // your canvas element
 				gauge = new Gauge(target).setOptions(opts); 
 		}
+

@@ -3,6 +3,14 @@ var http = require('http');
 var fs = require('fs');
 var exec = require('child_process').exec;
 
+var io = require('socket.io').listen(8002);
+io.sockets.on('connection', function (socket) {
+	socket.emit('news', { hello: 'world' });
+	socket.on('my other event', function (data) {
+		console.log(data);
+	});
+});
+
 var app = express();
 app.configure(function () {
 	app.set('views', __dirname + '/views');
@@ -56,6 +64,7 @@ app.use(function(req,res){
 			throw new Error(e);
 		}
 	}
+	setInterval(function() {readButtons()}, 1000);
 })();
 
 function getCounter(cb) {
@@ -75,7 +84,7 @@ function getCounterFor(whatfor, cb) {
 	fs.exists("./data/" + whatfor + ".counter", function (exists) {
 		if (exists) {
 			var cmd = "cat ./data/" + whatfor + ".counter | wc -l";
-			child = exec(cmd, function (error, stdout, stderr) {
+			var child = exec(cmd, function (error, stdout, stderr) {
 				//console.log('stdout: ' + stdout);
 				//console.log('stderr: ' + stderr);
 
@@ -101,3 +110,29 @@ function countVote(whatfor, cb) {
 	};
 }
 
+function readButtons() {
+	var cmd = "telnet 192.168.1.105 1337";
+	var child = exec(cmd, function (error, stdout, stderr) {
+		if (stdout) {
+			var foo = stdout.split("\n");
+			//console.log(JSON.stringify(foo));
+			console.log(foo[3]);
+			if (foo[3] == "128")
+				io.sockets.emit('vote', {whatfor: 'kunst'});
+			else if (foo[3] == "64")
+				io.sockets.emit('vote', {whatfor: 'kitsch'});
+		}
+		//console.log('stdout: ' + stdout);
+		//console.log('stderr: ' + stderr);
+
+		//if (error !== null) {
+			//console.log('exec error: ' + error);
+		//} 
+		
+		//cb(parseInt(stdout));
+	});
+	//child.stdout.on('data', function(data) { 
+		//process.stdout.write(data); 
+		//io.sockets.emit('news', data);
+	//});
+}
