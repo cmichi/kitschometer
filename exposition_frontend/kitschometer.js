@@ -60,7 +60,8 @@ app.use(function(req,res){
 			throw new Error(e);
 		}
 	}
-	setInterval(function() {readButtons()}, 500);
+	//setInterval(function() {readButtons()}, 500);
+readButtons();
 })();
 
 function getCounter(cb) {
@@ -107,9 +108,12 @@ function countVote(whatfor, cb) {
 }
 
 function readButtons() {
-	var cmd = "node telnet.js";
-	//192.168.1.105 1337";
+	var cmd = "/usr/local/bin/node telnet.js";
 	var child = exec(cmd, function (error, stdout, stderr) {
+		//if (error) {
+		//	console.log(JSON.stringify(error));
+			console.log(stderr)
+		//}
 		if (stdout) {
 			var foo = stdout.split("\n");
 			//console.log(JSON.stringify(foo));
@@ -124,8 +128,8 @@ function readButtons() {
 					io.sockets.emit('vote', {whatfor: 'kitsch'});
 			}
 		}
-		//console.log('stdout: ' + stdout);
-		//console.log('stderr: ' + stderr);
+		console.log('stdout: ' + stdout);
+		console.log('stderr: ' + stderr);
 
 		//if (error !== null) {
 			//console.log('exec error: ' + error);
@@ -133,8 +137,18 @@ function readButtons() {
 		
 		//cb(parseInt(stdout));
 	});
-	//child.stdout.on('data', function(data) { 
-		//process.stdout.write(data); 
+	child.stdout.on('data', function(data) { 
+		data = data.replace(/\s*/g, "");
+		data = data.replace(/\r\n/g, "");
+		data = data.replace(/\r/g, "");
+		data = data.replace(/\n/g, "");
+		data = data.replace(" ", "");
+		if (data == "128")
+			io.sockets.emit('vote', {whatfor: 'kunst'});
+		else if (data == "64")
+			io.sockets.emit('vote', {whatfor: 'kitsch'});
+		console.log("_" + data + "_"); 
+//process.stdout.write("--");
 		//io.sockets.emit('news', data);
-	//});
+	});
 }
