@@ -24,7 +24,7 @@ var PageTransitions = (function() {
 	
 	function init() {
 		$pages = $(".pt-page"),
-	console.log($pages.length);
+	//console.log($pages.length);
 
 		$pages.each( function() {
 			var $page = $( this );
@@ -32,7 +32,7 @@ var PageTransitions = (function() {
 		} );
 
 		$pages.eq( current ).addClass( 'pt-page-current' );
-		console.log("init")
+		//console.log("init")
 
 		/*
 		nextPage( {animation:32} );
@@ -59,7 +59,7 @@ var PageTransitions = (function() {
 	}
 
 	function nextPage( animation, cb ) {
-	console.log("isAnimating " + isAnimating)
+	//console.log("isAnimating " + isAnimating)
 
 		if( isAnimating ) {
 			return false;
