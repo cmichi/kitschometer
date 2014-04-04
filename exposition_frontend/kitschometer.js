@@ -64,7 +64,7 @@ app.use(function(req,res){
 			throw new Error(e);
 		}
 	}
-	setInterval(function() {readButtons()}, 1000);
+	setInterval(function() {readButtons()}, 500);
 })();
 
 function getCounter(cb) {
@@ -115,12 +115,18 @@ function readButtons() {
 	var child = exec(cmd, function (error, stdout, stderr) {
 		if (stdout) {
 			var foo = stdout.split("\n");
-			//console.log(JSON.stringify(foo));
-			console.log(foo[3]);
-			if (foo[3] == "128")
-				io.sockets.emit('vote', {whatfor: 'kunst'});
-			else if (foo[3] == "64")
-				io.sockets.emit('vote', {whatfor: 'kitsch'});
+			console.log(JSON.stringify(foo));
+			if (foo[3] == undefined) return;
+
+			for (var i in foo) {
+				var e = foo[i];
+				//console.log(foo[3]);
+
+				if (foo[i] == "128")
+					io.sockets.emit('vote', {whatfor: 'kunst'});
+				else if (foo[i] == "64")
+					io.sockets.emit('vote', {whatfor: 'kitsch'});
+			}
 		}
 		//console.log('stdout: ' + stdout);
 		//console.log('stderr: ' + stderr);
