@@ -111,12 +111,12 @@ function countVote(whatfor, cb) {
 }
 
 function readButtons() {
-	var cmd = "telnet 192.168.1.105 1337";
+	var cmd = "node telnet.js";
+//192.168.1.105 1337";
 	var child = exec(cmd, function (error, stdout, stderr) {
 		if (stdout) {
 			var foo = stdout.split("\n");
 			console.log(JSON.stringify(foo));
-			if (foo[3] == undefined) return;
 
 			for (var i in foo) {
 				var e = foo[i];
