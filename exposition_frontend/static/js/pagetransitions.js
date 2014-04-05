@@ -391,7 +391,13 @@ var PageTransitions = (function() {
 
 	//init();
 
-	return { init : init, nextPage: nextPage };
+	return { 
+		init : init, 
+		nextPage: nextPage, 
+		isAnimating: function() {
+			return isAnimating
+		}
+	};
 
 });
 

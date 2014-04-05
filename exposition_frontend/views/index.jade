@@ -124,6 +124,8 @@ block jumbotron
 
 			var socket = io.connect('http://localhost:8002');
 			socket.on('vote', function (data) {
+				if (!pageTransition.isAnimating()) return;
+
 				//console.log(data);
 				if (data.whatfor == "kunst")
 					vote('kunst');
