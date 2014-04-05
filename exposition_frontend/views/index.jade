@@ -28,10 +28,10 @@ block jumbotron
 			div.container.text-center
 				div.row
 					div.col-lg-12#gaugeContainer.
-						'<canvas width="500" height="400" style="margin-top:165px" id="gauge" />'
+						<canvas width="500" height="400" style="margin-top:165px" id="gauge" />
 
-				div.row(style="margin-top:-140px")
-					div.col-lg-4(style="margin-right:-80px;margin-left:40px;")
+				div.row(style="margin-top:-140px;font-size:60px;line-height:60px;")
+					div.col-lg-4(style="margin-right:-90px;margin-left:40px;")
 						div(style="float:right;").
 							<img src="/img/icon_20254/icon_20254.png" width="100" />
 							<br />
@@ -40,7 +40,7 @@ block jumbotron
 
 					div.col-lg-4
 						div(style="float:left").
-							<div style="font-size:70px;color:white;margin-top:-10px;display:none;" id="incrementKunst">
+							<div style="font-size:70px;color:white;margin-top:6px;display:none;" id="incrementKunst">
 								<strong>+1</strong>
 							</div>
 
@@ -50,7 +50,7 @@ block jumbotron
 							<br />
 							<strong>Kitsch: <span id="counterKitsch"></span></strong> 
 						div(style="float:left").
-							<div style="font-size:70px;color:white;margin-top:-10px;display:none;" id="incrementKitsch">
+							<div style="font-size:70px;color:white;margin-top:6px;display:none;" id="incrementKitsch">
 								<strong>+1</strong>
 							</div>
 
@@ -80,7 +80,7 @@ block jumbotron
 			*/
 
 
-			$("body").animate( { backgroundColor: "#000000" }, 1000);
+			//$("body").animate( { backgroundColor: "#000000" }, 1000);
 			//$("body").animate( { backgroundColor: "#ffff00" }, 1000);
 
 			//$("#gauge").remove();
@@ -101,8 +101,10 @@ block jumbotron
 				$(".bang").animate( { opacity: "1.0" }, 1000);
 
 				//$("#index").fadeOut(1000, function() {
-				var transition = 32;
-				pageTransition.nextPage(transition, function() {
+				var transitions = [36, 32, 35, 37];;
+
+				pageTransition.nextPage(transitions[transitionnr], function() {
+					transitionnr = (transitionnr + 1) % transitions.length;
 					if (data.whatfor === "kitsch") {
 						$("#incrementKitsch").css({"display": "block"});
 						$("#incrementKitsch").fadeIn(1000);
@@ -123,6 +125,7 @@ block jumbotron
 			});
 			}, 700);
 		}
+		var transitionnr = 0;
 
 		fadeIncOut = function(whatfor) {
 			if (whatfor === "kitsch") {
@@ -131,38 +134,12 @@ block jumbotron
 				$("#incrementKunst").fadeOut(3000);
 			}
 
-			setTimeout("pageTransition.nextPage(30, function() {voting=false;})", 3000);
-			//$('.pt-page-1 h3').jumble([255,255,255],[255,255,255],false,false);
-			/*
-			$('h3.a').funnyText({
-				speed: 10000,
-				borderColor: 'white',
-				activeColor: 'white',
-				color: 'white',
-				fontSize: '160px'
-			});
-			$('h3.b').funnyText({
-				speed: 10000,
-				borderColor: 'white',
-				activeColor: 'white',
-				color: 'white',
-				fontSize: '80px'
-			});
-			*/
+
 			setTimeout(function() {
-				$("body").animate( { backgroundColor: "black" }, 1000);
-				$(".bang").animate( { opacity: "0.0" }, 1000);
-			}, 3000);
-
-			//$("#voted").delay(3000).pageTransition.nextPage(2);
-			/*
-			$("#voted").delay(3000).fadeOut(2000, function() {
-				$("#index").fadeIn(2000);
-
-				//gauge.animationSpeed = 128;
-				//gauge.set(0);
-			});
-			*/
+				setTimeout("pageTransition.nextPage(30, function() {voting=false;})", 500);
+				//$("body").animate( { backgroundColor: "black" }, 1500);
+				$(".bang").animate( { opacity: "0.0" }, 1500);
+			}, 4000);
 		}
 
 		var gauge;
