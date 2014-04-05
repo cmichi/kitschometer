@@ -6,7 +6,7 @@ Kitsch?](http://www.kloster-schussenried.de/kloster/klostermuseum/wie-huebsch-ho
 The exhibition runs from 13. April until 22. June 2014 in the city Bad
 Schussenried in the southern part of Germany.
 
-This repository is meant as an documentation of the installation.
+This repository is meant as a documentation of the installation.
 
 The installation consits of two pc's: 
  * `exposition_frontend`: an ArchLinux machine displaying a frontend
@@ -16,8 +16,8 @@ The installation consits of two pc's:
 
 ## exposition_fronted
 
-The machine has be configured to use the Slim login manager and dwm as an
-window manger. Autologin has been configured as well.
+The machine has be configured to use the Slim login manager and dwm as a
+window manger. Logging in automatically has been configured as well.
 
 The `.xinitrc` looks like this:
 
