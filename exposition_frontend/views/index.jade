@@ -16,14 +16,13 @@ block jumbotron
 		//div.jumbotron.index-jumbotron#voted(style="display:none;")
 		div.jumbotron.index-jumbotron.pt-page.pt-page-2
 			div.container.text-center
-				//img(src="/img/bang.svg",style="width:900px;position:absolute;left:200px;")
 				div.row
 					div.col-lg-12#gaugeContainer.
-						'<canvas width="500" height="400" style="margin-top:-35px" id="gauge" />'
+						'<canvas width="500" height="400" style="margin-top:15px" id="gauge" />'
 
-				div.row(style="margin-top:-70px")
-					div.col-lg-4
-						div(style="float:right").
+				div.row(style="margin-top:-140px")
+					div.col-lg-4(style="margin-right:-80px;margin-left:40px;")
+						div(style="float:right;").
 							<img src="/img/icon_20254/icon_20254.png" width="100" />
 							<br />
 							<strong>Kunst: <span id="counterKunst"></span></strong> 
@@ -71,7 +70,8 @@ block jumbotron
 			*/
 
 
-			$("body").animate( { backgroundColor: "#ffff00" }, 1000);
+			$("body").animate( { backgroundColor: "#000000" }, 1000);
+			//$("body").animate( { backgroundColor: "#ffff00" }, 1000);
 			$(".bang").animate( { opacity: "1.0" }, 1000);
 
 			//$("#gauge").remove();
@@ -91,7 +91,8 @@ block jumbotron
 				var val = data.counter.total - data.counter.kunst;
 
 				//$("#index").fadeOut(1000, function() {
-				pageTransition.nextPage(32, function() {
+				var transition = 32;
+				pageTransition.nextPage(transition, function() {
 					if (data.whatfor === "kitsch") {
 						$("#incrementKitsch").css({"display": "block"});
 						$("#incrementKitsch").fadeIn(1000);
@@ -209,7 +210,7 @@ block jumbotron
 					limitMax: 'false',   // If true, the pointer will not go past the end of the gauge
 					colorStart: '#000000',   // Colors
 					colorStop: '#000000',    // just experiment with them
-					strokeColor: '#d22e81',
+					strokeColor: '#ffff00',
 					//strokeColor: '#d22e81',
 					generateGradient: true
 				};
