@@ -119,6 +119,8 @@ block jumbotron
 
 		var gauge;
 		var pageTransition;
+		var connected = false;
+		var timeout;
 
 		$(function() {
 			createGauge();
@@ -126,10 +128,26 @@ block jumbotron
 			pageTransition.init();
 
 			var socket = io.connect('http://localhost:8002');
+			socket.on('connect', function () {
+				connected = true;
+				clearTimeout(timeout);
+			});
+			socket.on('disconnect', function () {
+				connected = false;
+				retryConnectOnFailure();
+			});
+			var retryConnectOnFailure = function() {
+				setTimeout(function() {
+					if (!connected) {
+						window.location.href = 'http://localhost:8001/';
+					}
+					//retryConnectOnFailure();
+				}, 1000);
+			}
 			socket.on('vote', function (data) {
+				//console.log(data);
 				if (pageTransition.isAnimating()) return;
 
-				//console.log(data);
 				if (data.whatfor == "kunst")
 					vote('kunst');
 				else if (data.whatfor == "kitsch")
