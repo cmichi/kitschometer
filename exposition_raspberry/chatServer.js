@@ -46,9 +46,10 @@ net.createServer(function (socket) {
 
 // Put a friendly message on the terminal of the server.
 console.log("Chat server running at port 1337\n");
+var playing = false;
 
 function readButtons() {
-	var child = exec("/usr/bin/sudo /bin/bash /home/pi/kitschometer/exposition_raspberry/keyboard.sh", function (error, stdout, stderr) {
+	var child = exec("/usr/bin/sudo /bin/bash /home/pi/keyboard.sh", function (error, stdout, stderr) {
 		//console.log(stderr);
 		//console.log(error);
 		if (error) return;
@@ -57,9 +58,44 @@ function readButtons() {
 
 		if (stdout.length  === 0) return;
 
-		//console.log("" + stdout);
-
+		//console.log("broadcast: " + stdout);
 		if (stdout) broadcast("" + stdout);
+
+		//stdout = stdout.replace("\r\n", "")
+		//stdout = stdout.replace("\n\r", "")
+		//stdout = stdout.replace("\n", "")
+		//console.log("_" + stdout + "_");
+		if (playing) return;
+		if (stdout.substr(0,2) == "64") {
+playing =  true;
+			var child_sound = exec("/usr/bin/aplay /home/pi/kitschometer/exposition_raspberry/kunst.wav", function (error, stdout, stderr) {
+playing =  false;
+//console.log(stdout);
+//console.log("returned");
+/*
+				console.log(stderr);
+				console.log(error);
+
+				if (error) return;
+*/
+			});
+		//} else if (stdout == "128") {
+		} else if (stdout.substr(0,3) == "128") {
+playing =  true;
+		//} else if (stdout.length !== stdout.replace("128", "")) {
+			var child_sound = exec("/usr/bin/aplay /home/pi/kitschometer/exposition_raspberry/kitsch.wav", function (error, stdout, stderr) {
+playing =  false;
+console.log(stdout);
+console.log("returned");
+/*
+				console.log(stderr);
+				console.log(stdout);
+				console.log(error);
+				if (error) return;
+*/
+			});
+		}
+
 
 	});
 }
