@@ -127,9 +127,9 @@ function readButtons() {
 		data = data.replace(/\n/g, "");
 		data = data.replace(" ", "");
 		if (data == "128")
-			io.sockets.emit('vote', {whatfor: 'kunst'});
-		else if (data == "64")
 			io.sockets.emit('vote', {whatfor: 'kitsch'});
+		else if (data == "64")
+			io.sockets.emit('vote', {whatfor: 'kunst'});
 		//console.log("_" + data + "_"); 
 //process.stdout.write("--");
 		//io.sockets.emit('news', data);
