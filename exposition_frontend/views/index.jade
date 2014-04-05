@@ -137,12 +137,14 @@ block jumbotron
 				retryConnectOnFailure();
 			});
 			var retryConnectOnFailure = function() {
+				console.log("about to retry in 5000");
 				setTimeout(function() {
+					console.log("connected? " + connected);
 					if (!connected) {
 						window.location.href = 'http://localhost:8001/';
 					}
 					//retryConnectOnFailure();
-				}, 1000);
+				}, 5000);
 			}
 			socket.on('vote', function (data) {
 				//console.log(data);
