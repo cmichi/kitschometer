@@ -109,6 +109,7 @@ function countVote(whatfor, cb) {
 
 function readButtons() {
 	var cmd = "/usr/local/bin/node telnet.js";
+try {
 	var child = exec(cmd, function (error, stdout, stderr) {
 		if (error) {
 			console.log(JSON.stringify(error));
@@ -131,4 +132,9 @@ function readButtons() {
 //process.stdout.write("--");
 		//io.sockets.emit('news', data);
 	});
+} catch (err) {
+			console.dir(err);
+readButtons();
+
+}
 }

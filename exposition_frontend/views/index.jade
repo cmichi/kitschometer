@@ -57,7 +57,10 @@ block jumbotron
 
 
 	script(type="text/javascript").
+		var voting = false;
 		function vote(whatfor) {
+			if (voting) return;
+			voting = true;
 			//$("#gauge").remove();
 			//document.getElementById("gaugeContainer").innerHTML = 
 				//'<canvas width="500" height="400" style="margin-top:-35px" id="gauge" />'; 
@@ -101,7 +104,7 @@ block jumbotron
 				$("#incrementKunst").fadeOut(3000);
 			}
 
-			setTimeout("pageTransition.nextPage(32)", 3000);
+			setTimeout("pageTransition.nextPage(30, function() {voting=false;})", 3000);
 
 			//$("#voted").delay(3000).pageTransition.nextPage(2);
 			/*
