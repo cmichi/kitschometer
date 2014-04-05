@@ -110,32 +110,12 @@ function countVote(whatfor, cb) {
 function readButtons() {
 	var cmd = "/usr/local/bin/node telnet.js";
 	var child = exec(cmd, function (error, stdout, stderr) {
-		//if (error) {
-		//	console.log(JSON.stringify(error));
+		if (error) {
+			console.log(JSON.stringify(error));
 			console.log(stderr)
-		//}
-		if (stdout) {
-			var foo = stdout.split("\n");
-			//console.log(JSON.stringify(foo));
-
-			for (var i in foo) {
-				var e = foo[i];
-				//console.log(foo[3]);
-
-				if (foo[i] == "128")
-					io.sockets.emit('vote', {whatfor: 'kunst'});
-				else if (foo[i] == "64")
-					io.sockets.emit('vote', {whatfor: 'kitsch'});
-			}
 		}
 		console.log('stdout: ' + stdout);
 		console.log('stderr: ' + stderr);
-
-		//if (error !== null) {
-			//console.log('exec error: ' + error);
-		//} 
-		
-		//cb(parseInt(stdout));
 	});
 	child.stdout.on('data', function(data) { 
 		data = data.replace(/\s*/g, "");
