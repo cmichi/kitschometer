@@ -1,10 +1,6 @@
 extends layout
 
 block jumbotron
-	div.hidden
-		audio(autoplay="autoplay",src="/sounds/kitsch.m4a")#sound_kitsch
-		audio(src="/sounds/kunst.m4a")#sound_kunst
-
 	div.pt-perspective#pt-main
 		div.jumbotron.index-jumbotron.pt-page.pt-page-1
 			div.container.text-center
@@ -84,15 +80,9 @@ block jumbotron
 					if (data.whatfor === "kitsch") {
 						$("#incrementKitsch").css({"display": "block"});
 						$("#incrementKitsch").fadeIn(1000);
-
-						var audio = $("#sound_kitsch");
-						audio.play();
 					} else {
 						$("#incrementKunst").fadeIn(1000);
 						$("#incrementKunst").css({"display": "block"});
-
-						var audio = $("#sound_kunst");
-						audio.play();
 					}
 
 
