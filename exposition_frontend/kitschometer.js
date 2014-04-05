@@ -4,12 +4,8 @@ var fs = require('fs');
 var exec = require('child_process').exec;
 
 var io = require('socket.io').listen(8002);
-io.sockets.on('connection', function (socket) {
-	socket.emit('news', { hello: 'world' });
-	socket.on('my other event', function (data) {
-		console.log(data);
-	});
-});
+io.set('log level', 1);
+io.sockets.on('connection', function (socket) { });
 
 var app = express();
 app.configure(function () {
@@ -113,8 +109,6 @@ function countVote(whatfor, cb) {
 
 function readButtons() {
 	var cmd = "/usr/local/bin/node telnet.js";
-console.log("read")
-//192.168.1.105 1337";
 	var child = exec(cmd, function (error, stdout, stderr) {
 		//if (error) {
 		//	console.log(JSON.stringify(error));
@@ -122,7 +116,7 @@ console.log("read")
 		//}
 		if (stdout) {
 			var foo = stdout.split("\n");
-			console.log(JSON.stringify(foo));
+			//console.log(JSON.stringify(foo));
 
 			for (var i in foo) {
 				var e = foo[i];

@@ -83,7 +83,7 @@ block jumbotron
 					}
 
 
-					console.log("about to delay");
+					//console.log("about to delay");
 					setTimeout("gauge.set(" + val + ")", 800);
 
 					//$("#voted").fadeIn(1000, function() {
@@ -124,7 +124,7 @@ block jumbotron
 
 			var socket = io.connect('http://localhost:8002');
 			socket.on('vote', function (data) {
-				console.log(data);
+				//console.log(data);
 				if (data.whatfor == "kunst")
 					vote('kunst');
 				else if (data.whatfor == "kitsch")
