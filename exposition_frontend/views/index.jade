@@ -6,11 +6,21 @@ block jumbotron
 			div.container.text-center
 				div.row
 					div.col-lg-10.col-lg-offset-1.text-center(style='margin-top:-40px')
-						h3(style="font-size:160px;font-weight:normal;").a.
+						h3(style="font-size:170px;font-weight:normal;").a.
 							Stimm ab!
-						h3(style="font-size:80px;font-weight:normal;line-height:90px;").b.
-							Was ist dein Eindruck:<br />
-							Ist diese Ausstellung eher Kunst oder Kitsch?
+						h3(style="font-size:70px;font-weight:normal;line-height:90px;text-align:justify;margin-top:30px;").b.
+							Bet&auml;tige den linken Schalter, falls du die Ausstellung 
+							eher als Kunst empfindest 
+
+						h3(style="font-size:70px;font-weight:normal;line-height:90px;text-align:justify;margin-top:30px;").b.
+							Bet&auml;tige den rechten Schalter falls die Ausstellung f&uuml;r
+							dich eher Kitsch darstellt.
+
+						h3(style="display:none;font-size:70px;font-weight:normal;line-height:90px;text-align:justify;margin-top:30px;").b.
+							Bet&auml;tige den linken Schalter, falls du die Ausstellung 
+							eher als Kunst empfindest und den rechten falls sie f&uuml;r
+							dich eher Kitsch darstellt.
+
 
 
 		//div.jumbotron.index-jumbotron#voted(style="display:none;")
@@ -18,7 +28,7 @@ block jumbotron
 			div.container.text-center
 				div.row
 					div.col-lg-12#gaugeContainer.
-						'<canvas width="500" height="400" style="margin-top:15px" id="gauge" />'
+						'<canvas width="500" height="400" style="margin-top:165px" id="gauge" />'
 
 				div.row(style="margin-top:-140px")
 					div.col-lg-4(style="margin-right:-80px;margin-left:40px;")
@@ -72,7 +82,6 @@ block jumbotron
 
 			$("body").animate( { backgroundColor: "#000000" }, 1000);
 			//$("body").animate( { backgroundColor: "#ffff00" }, 1000);
-			$(".bang").animate( { opacity: "1.0" }, 1000);
 
 			//$("#gauge").remove();
 			//document.getElementById("gaugeContainer").innerHTML = 
@@ -89,6 +98,7 @@ block jumbotron
 				$("#counterKitsch").text(data.counter.kitsch);
 
 				var val = data.counter.total - data.counter.kunst;
+				$(".bang").animate( { opacity: "1.0" }, 1000);
 
 				//$("#index").fadeOut(1000, function() {
 				var transition = 32;
@@ -208,8 +218,8 @@ block jumbotron
 						color: '#ffffff' // Fill color
 					},
 					limitMax: 'false',   // If true, the pointer will not go past the end of the gauge
-					colorStart: '#000000',   // Colors
-					colorStop: '#000000',    // just experiment with them
+					colorStart: '#7cf6ff',   // Colors
+					colorStop: '#7cf6ff',    // just experiment with them
 					strokeColor: '#ffff00',
 					//strokeColor: '#d22e81',
 					generateGradient: true
