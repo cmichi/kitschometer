@@ -42,24 +42,47 @@ net.createServer(function (socket) {
     });
     // Log it to the server output too
     process.stdout.write(message)
-  }
+}
 
-// Put a friendly message on the terminal of the server.
 console.log("Chat server running at port 1337\n");
+var playing = false;
+var sounds = {
+	  kunst: ["violin", "violins"]
+	, kitsch: ["huja", "laughter"]
+}
+var soundnrs = {
+	  kunst: 0
+	, kitsch: 0
+}
 
 function readButtons() {
-	var child = exec("/usr/bin/sudo /bin/bash /home/pi/kitschometer/exposition_raspberry/keyboard.sh", function (error, stdout, stderr) {
-		//console.log(stderr);
-		//console.log(error);
+	var child = exec("/usr/bin/sudo /bin/bash /home/pi/keyboard.sh", function (error, stdout, stderr) {
 		if (error) return;
-		//stdout += "";
-		//stdout = stdout.replace(/\s*/g, ""); //.replace(/\r\n/g, "");
-
 		if (stdout.length  === 0) return;
-
-		//console.log("" + stdout);
-
 		if (stdout) broadcast("" + stdout);
+
+		if (playing) return;
+
+		var cmd = "/usr/bin/aplay /home/pi/kitschometer/exposition_raspberry/";
+
+		if (stdout.substr(0,2) == "64") {
+			playing =  true;
+			var sound = cmd + sounds.kunst[soundnrs.kunst]  + ".wav";
+			soundnrs.kunst = (soundnrs.kunst + 1) % sounds.kunst.length;
+
+			var child_sound = exec(sound, function (error, stdout, stderr) {
+				playing =  false;
+			});
+		} else if (stdout.substr(0,3) == "128") {
+			playing =  true;
+			var sound = cmd + sounds.kitsch[soundnrs.kitsch]  + ".wav";
+			soundnrs.kitsch = (soundnrs.kitsch + 1) % sounds.kitsch.length;
+
+			var child_sound = exec(sound, function (error, stdout, stderr) {
+				playing =  false;
+			});
+		}
+
 
 	});
 }
