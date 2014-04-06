@@ -10,10 +10,10 @@ block jumbotron
 							Stimm ab!
 						h3(style="font-size:70px;font-weight:normal;line-height:90px;text-align:justify;margin-top:30px;").b.
 							Bet&auml;tige den linken Schalter, falls du die Ausstellung 
-							eher als Kunst empfindest 
+							eher als Kunst empfindest.
 
 						h3(style="font-size:70px;font-weight:normal;line-height:90px;text-align:justify;margin-top:30px;").b.
-							Bet&auml;tige den rechten Schalter falls die Ausstellung f&uuml;r
+							Bet&auml;tige den rechten Schalter, falls die Ausstellung f&uuml;r
 							dich eher Kitsch darstellt.
 
 						h3(style="display:none;font-size:70px;font-weight:normal;line-height:90px;text-align:justify;margin-top:30px;").b.
@@ -40,7 +40,7 @@ block jumbotron
 
 					div.col-lg-4
 						div(style="float:left").
-							<div style="font-size:70px;color:white;margin-top:6px;display:none;" id="incrementKunst">
+							<div style="font-size:70px;color:white;margin-top:23px;display:none;" id="incrementKunst">
 								<strong>+1</strong>
 							</div>
 
@@ -50,7 +50,7 @@ block jumbotron
 							<br />
 							<strong>Kitsch: <span id="counterKitsch"></span></strong> 
 						div(style="float:left").
-							<div style="font-size:70px;color:white;margin-top:6px;display:none;" id="incrementKitsch">
+							<div style="font-size:70px;color:white;margin-top:20px;display:none;" id="incrementKitsch">
 								<strong>+1</strong>
 							</div>
 
@@ -133,7 +133,6 @@ block jumbotron
 			} else {
 				$("#incrementKunst").fadeOut(3000);
 			}
-
 
 			setTimeout(function() {
 				setTimeout("pageTransition.nextPage(30, function() {voting=false;})", 500);
