@@ -5,35 +5,34 @@ block jumbotron
 		div.jumbotron.index-jumbotron.pt-page.pt-page-1
 			div.container.text-center
 				div.row
-					div.col-lg-10.col-lg-offset-1.text-center
-						h3(style="font-size:160px;font-weight:normal;").
+					div.col-lg-10.col-lg-offset-1.text-center(style='margin-top:-40px')
+						h3(style="font-size:170px;font-weight:normal;").a.
 							Stimm ab!
-						h3(style="font-size:80px;font-weight:normal;").
-							Was ist dein Ausstellungs-Eindruck?
+						h3(style="font-size:70px;font-weight:normal;line-height:90px;text-align:justify;margin-top:30px;").b.
+							Bet&auml;tige den linken Schalter, falls du die Ausstellung 
+							eher als Kunst empfindest 
+
+						h3(style="font-size:70px;font-weight:normal;line-height:90px;text-align:justify;margin-top:30px;").b.
+							Bet&auml;tige den rechten Schalter falls die Ausstellung f&uuml;r
+							dich eher Kitsch darstellt.
+
+						h3(style="display:none;font-size:70px;font-weight:normal;line-height:90px;text-align:justify;margin-top:30px;").b.
+							Bet&auml;tige den linken Schalter, falls du die Ausstellung 
+							eher als Kunst empfindest und den rechten falls sie f&uuml;r
+							dich eher Kitsch darstellt.
+
 
 
 		//div.jumbotron.index-jumbotron#voted(style="display:none;")
 		div.jumbotron.index-jumbotron.pt-page.pt-page-2
 			div.container.text-center
 				div.row
-					div.col-lg-12(style="display:none")
-						strong(style="font-size:32").
-							Soso&hellip; 
-
-						- if (whatfor === "kitsch")
-							strong(style="font-size:32;color:#d22e81;").
-								Kitsch
-						- else 
-							strong(style="font-size:32;color:black;").
-								Kunst
-						- endif
-
 					div.col-lg-12#gaugeContainer.
-						'<canvas width="500" height="400" style="margin-top:-35px" id="gauge" />'
+						<canvas width="500" height="400" style="margin-top:165px" id="gauge" />
 
-				div.row(style="margin-top:-70px")
-					div.col-lg-4
-						div(style="float:right").
+				div.row(style="margin-top:-140px;font-size:60px;line-height:60px;")
+					div.col-lg-4(style="margin-right:-90px;margin-left:40px;")
+						div(style="float:right;").
 							<img src="/img/icon_20254/icon_20254.png" width="100" />
 							<br />
 							<strong>Kunst: <span id="counterKunst"></span></strong> 
@@ -41,7 +40,7 @@ block jumbotron
 
 					div.col-lg-4
 						div(style="float:left").
-							<div style="font-size:70px;color:white;margin-top:-10px;display:none;" id="incrementKunst">
+							<div style="font-size:70px;color:white;margin-top:6px;display:none;" id="incrementKunst">
 								<strong>+1</strong>
 							</div>
 
@@ -51,7 +50,7 @@ block jumbotron
 							<br />
 							<strong>Kitsch: <span id="counterKitsch"></span></strong> 
 						div(style="float:left").
-							<div style="font-size:70px;color:white;margin-top:-10px;display:none;" id="incrementKitsch">
+							<div style="font-size:70px;color:white;margin-top:6px;display:none;" id="incrementKitsch">
 								<strong>+1</strong>
 							</div>
 
@@ -61,10 +60,35 @@ block jumbotron
 		function vote(whatfor) {
 			if (voting) return;
 			voting = true;
+			//$('.pt-page-1 h3').jumble([255,220,100],[255,255,255],false,true,200);
+			//$('h3').jumble([120,190,240],true,true,false,100); 
+			/*
+			$('h3.a').funnyText({
+				speed: 50,
+				borderColor: '#ff00ff',
+				activeColor: '#ff0000',
+				color: '#ffffff',
+				fontSize: '160px'
+			});
+			$('h3.b').funnyText({
+				speed: 50,
+				borderColor: '#ffff00',
+				activeColor: '#ffff00',
+				color: '#0000ff',
+				fontSize: '80px'
+			});
+			*/
+
+
+			//$("body").animate( { backgroundColor: "#000000" }, 1000);
+			//$("body").animate( { backgroundColor: "#ffff00" }, 1000);
+
 			//$("#gauge").remove();
 			//document.getElementById("gaugeContainer").innerHTML = 
 				//'<canvas width="500" height="400" style="margin-top:-35px" id="gauge" />'; 
 
+			//return;
+			setTimeout(function() {
 			$.get("/vote/" + whatfor, function (data) {
 				createGauge();
 				gauge.maxValue = data.counter.total; // set max gauge value
@@ -74,9 +98,13 @@ block jumbotron
 				$("#counterKitsch").text(data.counter.kitsch);
 
 				var val = data.counter.total - data.counter.kunst;
+				$(".bang").animate( { opacity: "1.0" }, 1000);
 
 				//$("#index").fadeOut(1000, function() {
-				pageTransition.nextPage(32, function() {
+				var transitions = [36, 32, 35, 37];;
+
+				pageTransition.nextPage(transitions[transitionnr], function() {
+					transitionnr = (transitionnr + 1) % transitions.length;
 					if (data.whatfor === "kitsch") {
 						$("#incrementKitsch").css({"display": "block"});
 						$("#incrementKitsch").fadeIn(1000);
@@ -95,7 +123,9 @@ block jumbotron
 					//});
 				});
 			});
+			}, 700);
 		}
+		var transitionnr = 0;
 
 		fadeIncOut = function(whatfor) {
 			if (whatfor === "kitsch") {
@@ -104,17 +134,12 @@ block jumbotron
 				$("#incrementKunst").fadeOut(3000);
 			}
 
-			setTimeout("pageTransition.nextPage(30, function() {voting=false;})", 3000);
 
-			//$("#voted").delay(3000).pageTransition.nextPage(2);
-			/*
-			$("#voted").delay(3000).fadeOut(2000, function() {
-				$("#index").fadeIn(2000);
-
-				//gauge.animationSpeed = 128;
-				//gauge.set(0);
-			});
-			*/
+			setTimeout(function() {
+				setTimeout("pageTransition.nextPage(30, function() {voting=false;})", 500);
+				//$("body").animate( { backgroundColor: "black" }, 1500);
+				$(".bang").animate( { opacity: "0.0" }, 1500);
+			}, 4000);
 		}
 
 		var gauge;
@@ -126,6 +151,7 @@ block jumbotron
 			createGauge();
 			pageTransition = PageTransitions();
 			pageTransition.init();
+			//$('.pt-page-1 h3').jumble([255,255,255],[255,255,255],false,false);
 
 			var socket = io.connect('http://localhost:8002');
 			socket.on('connect', function () {
@@ -169,9 +195,9 @@ block jumbotron
 						color: '#ffffff' // Fill color
 					},
 					limitMax: 'false',   // If true, the pointer will not go past the end of the gauge
-					colorStart: '#000000',   // Colors
-					colorStop: '#000000',    // just experiment with them
-					strokeColor: '#d22e81',
+					colorStart: '#7cf6ff',   // Colors
+					colorStop: '#7cf6ff',    // just experiment with them
+					strokeColor: '#ffff00',
 					//strokeColor: '#d22e81',
 					generateGradient: true
 				};

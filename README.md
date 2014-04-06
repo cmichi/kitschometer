@@ -94,6 +94,7 @@ The project takes use of those awesome icons:
 
  * Venus by MaxineVSG from The Noun Project 
  * Gnome by Bonnie Beach from The Noun Project
+ * Explosion by Jerry Wang from The Noun Project
 
 
 # License
