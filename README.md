@@ -8,10 +8,14 @@ Schussenried in the southern part of Germany.
 
 This repository is meant as a documentation of the installation.
 
+**Status:** It works, but the code is heavily cluttered and needs to be
+sanitized and refactored.
+
+
 The installation consits of two pc's: 
  * `exposition_frontend`: an ArchLinux machine displaying a frontend
  * `exposition_raspberry`: a RaspberryPi which reads from two external
-   hardware input devices.
+   hardware buttons as input devices.
 
 
 ## exposition_fronted
@@ -23,15 +27,12 @@ The `.xinitrc` looks like this:
 
 	setterm -blank 0 -powersave off -powerdown 0
 	xset s off
-	unclutter --root
 
 	cp /home/sundata/kitschometer/exposition_frontend/redirect.html /tmp/
 	(cd /home/sundata/kitschometer/exposition_frontend/ && forever start kitschometer.js)
 
 
 	(uzbl-browser file:///tmp/redirect.html) & 
-	sleep 1
-	xdotool mousemove_relative 0 0
 	sleep 1
 	/home/sundata/unclutter/unclutter &
 	exec dwm
