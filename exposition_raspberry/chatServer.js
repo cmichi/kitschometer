@@ -47,8 +47,8 @@ net.createServer(function (socket) {
 console.log("Chat server running at port 1337\n");
 var playing = false;
 var sounds = {
-	  kunst: ["violin", "violins"]
-	, kitsch: ["huja", "laughter"]
+	  kitsch: ["huja", "laughter", "scream", "tata", "circus"]
+	, kunst: ["huja", "laughter", "scream", "tata", "circus"]
 }
 var soundnrs = {
 	  kunst: 0
@@ -69,6 +69,7 @@ function readButtons() {
 			playing =  true;
 			var sound = cmd + sounds.kunst[soundnrs.kunst]  + ".wav";
 			soundnrs.kunst = (soundnrs.kunst + 1) % sounds.kunst.length;
+			soundnrs.kitsch = (soundnrs.kitsch + 1) % sounds.kitsch.length;
 
 			var child_sound = exec(sound, function (error, stdout, stderr) {
 				playing =  false;
@@ -76,7 +77,9 @@ function readButtons() {
 		} else if (stdout.substr(0,3) == "128") {
 			playing =  true;
 			var sound = cmd + sounds.kitsch[soundnrs.kitsch]  + ".wav";
+
 			soundnrs.kitsch = (soundnrs.kitsch + 1) % sounds.kitsch.length;
+			soundnrs.kunst = (soundnrs.kunst + 1) % sounds.kunst.length;
 
 			var child_sound = exec(sound, function (error, stdout, stderr) {
 				playing =  false;
