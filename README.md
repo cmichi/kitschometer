@@ -7,10 +7,15 @@ The exhibition runs from 13. April until 22. June 2014 in the city Bad
 Schussenried in the southern part of Germany.
 
 This repository is meant as a documentation of the installation.
+See [this](http://) blog post for further details on the project.
 
 **Status:** It works, but the code is heavily cluttered and needs to be
 sanitized and refactored.
 
+[![Kitschometer](https://github.com/cmichi/kitschometer/raw/master/photo.jpg)](http://micha.elmueller.net/2014/04/kitschometer/)
+
+
+## Setup documentation
 
 The installation consits of two pc's: 
  * `exposition_frontend`: an ArchLinux machine displaying a frontend
@@ -18,7 +23,7 @@ The installation consits of two pc's:
    hardware buttons as input devices.
 
 
-## exposition_fronted
+### exposition_fronted
 
 The machine has be configured to use the Slim login manager and dwm as a
 window manger. Logging in automatically has been configured as well.
@@ -45,7 +50,7 @@ the colorful borders of program windows and stuff:
 	static const char selbgcolor[]      = "#000000";
 
 
-## exposition_raspberry
+### exposition_raspberry
 
 The standard raspberry image has been enhanced with a startup daemon
 `/etc/init.d/kitschometer`:
